@@ -1,11 +1,11 @@
-import { FastifyInstance } from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import { z } from "zod"
 import { createReadStream } from "fs";
 import { openai } from "../lib/openai";
 
 export async function generateAICompletionRoute(app: FastifyInstance) {
-    app.post('/ai/complete', async (req) => {
+    app.post('/ai/complete', async (req, reply) => {
         const bodySchema = z.object({
             videoId: z.string().uuid(),
             template: z.string(),
@@ -20,8 +20,9 @@ export async function generateAICompletionRoute(app: FastifyInstance) {
             }
         })
     if (!video.transcription) {
-        return repl
-}
+        return reply.status(400).send({ error: 'Video transcription was not generated yet.'})
+        }
+
 
         return {
             videoId,
