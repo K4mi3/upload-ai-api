@@ -1,0 +1,39 @@
+# @name get-prompts
+GET http://localhost:3333/prompts
+
+###
+
+# @name upload
+POST http://localhost:3333/videos
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary
+
+------WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="Gab.mp3"
+Content-Type: audio/mpeg
+
+< ./Gab.mp3
+------WebKitFormBoundary--
+
+###
+
+# @name create-transcription
+
+POST  http://localhost:3333/videos/9242c216-1cb8-47ab-84b8-52af90c5f075/transcription
+Content-Type: application/json
+
+{
+    "prompt": "Gabs é bom demais, ddd"
+}
+
+###
+
+# @name generate-ai-completion
+
+POST  http://localhost:3333/ai/complete
+Content-Type: application/json
+
+{
+    "videoId": "9242c216-1cb8-47ab-84b8-52af90c5f075",
+    "temperature": 0.5,
+    "template": "Gere um resumo sucinto de transcrição do video informada a seguir: "
+}
